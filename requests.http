@@ -1,0 +1,8 @@
+GET http://localhost:8000/reading
+### 
+POST http://localhost:8000/reading
+
+{
+  "sensorId": "Sensor2",
+  "moisture": 3.14
+}
