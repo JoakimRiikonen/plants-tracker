@@ -1,0 +1,44 @@
+@import '../variables.scss';
+
+.statusContainer {
+  display: flex;
+  justify-content: space-between;
+  margin: 4px;
+  margin-top: 10px;
+  align-items: start;
+}
+
+.currentStatusContainer {
+  width: 180px;
+}
+
+.statusLabel {
+  letter-spacing: 4px;
+  text-shadow: 0 0 20px $color-main;
+}
+
+.statusLastUpdateLabel {
+  letter-spacing: 4px;
+}
+
+.status {
+  width: 115px;
+  margin-left: 22px;
+  font-size: 50px;
+  letter-spacing: -2px;
+  color: $color-bg;
+  padding: 0px 6px;
+  border-radius: 4px;
+  font-weight: 900;
+  transform: scale(1.5, 1.0);
+
+  &.connected {
+    background: $color-positive;
+    box-shadow: 0 0 10px $color-positive;
+  }
+
+  &.disconnected {
+    background: $color-secondary;
+    box-shadow: 0 0 10px $color-secondary;
+  }
+}

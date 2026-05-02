@@ -1,0 +1,65 @@
+@import '../variables.scss';
+
+.plantsTable {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 10px;
+}
+
+.plantsTableHeader {
+  th {
+    letter-spacing: 4px;
+    font-weight: normal;
+    text-align: left;
+    text-shadow: 0 0 4px $color-main;
+
+    &:last-child {
+      text-align: right;
+    }
+  }
+}
+
+.plantRow {
+  font-size: 32px;
+}
+
+.plantName {
+  text-shadow: 0 0 10px $color-main;
+  &::first-letter {
+    color: $color-secondary;
+  }
+}
+
+.plantStatus {
+  max-width: 60px;
+  color: $color-bg;
+  letter-spacing: -2px;
+  font-weight: 900;
+  transform: scale(1.5, 1.0);
+  border-radius: 4px;
+
+  &.ok {
+    background-color: $color-positive;
+    box-shadow: 0 0 10px $color-positive;
+  }
+
+  &.warn {
+    background-color: $color-main;
+    box-shadow: 0 0 10px $color-main;
+  }
+
+  &.alert {
+    background-color: $color-secondary;
+    box-shadow: 0 0 10px $color-secondary;
+  }
+
+  &.lost {
+    background-color: $color-secondary;
+    box-shadow: 0 0 10px $color-secondary;
+  }
+}
+
+.plantMoisture {
+  text-shadow: 0 0 10px $color-main;
+  text-align: right;
+}

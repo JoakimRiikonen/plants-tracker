@@ -1,0 +1,29 @@
+@import '../variables.scss';
+
+.timeContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: center;
+  align-items: end;
+  border: 8px solid $color-secondary;
+  box-shadow: 0 0 20px $color-secondary;
+  border-radius: 20px;
+  padding: 0 16px;
+  margin-top: 10px;
+}
+
+.timePrimary {
+  font-size: 100px;
+  letter-spacing: -4px;
+  text-shadow: 0 0 20px $color-main;
+  margin-top: -2px;
+}
+
+.timeSecondary {
+  margin-top: -10px;
+  font-size: 24px;
+  letter-spacing: -1px;
+  margin-bottom: 4px;
+  text-shadow: 0 0 20px $color-main;
+}
