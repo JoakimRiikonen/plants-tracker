@@ -1,6 +1,7 @@
 package readings
 
 type ReadingStore interface {
-	Add(reading Reading) error
+	Add(reading AddReading) error
 	List() ([]Reading, error)
+	Newest() ([]Reading, error)
 }

@@ -17,26 +17,36 @@ func NewReadingsHandler(s readings.ReadingStore) *ReadingsHandler {
 	}
 }
 
-func (h *ReadingsHandler) AddReading(w http.ResponseWriter, r *http.Request) {
-	var reading readings.Reading
-	if err := json.NewDecoder(r.Body).Decode(&reading); err != nil {
+func (h *ReadingsHandler) GetReadings(w http.ResponseWriter, r *http.Request) {
+	resources, err := h.store.List()
+	if err != nil {
+		fmt.Println(err)
 		InternalServerErrorHandler(w, r)
 		return
 	}
 
-	if err := h.store.Add(reading); err != nil {
+	jsonBytes, err := json.Marshal(resources)
+	if err != nil {
+		fmt.Println(err)
 		InternalServerErrorHandler(w, r)
 		return
 	}
 
 	w.WriteHeader(http.StatusOK)
+	w.Write(jsonBytes)
 }
 
-func (h *ReadingsHandler) GetReadings(w http.ResponseWriter, r *http.Request) {
-	resources, err := h.store.List()
+func (h *ReadingsHandler) GetNewestReadings(w http.ResponseWriter, r *http.Request) {
+	resources, err := h.store.Newest()
+	if err != nil {
+		fmt.Println(err)
+		InternalServerErrorHandler(w, r)
+		return
+	}
 
 	jsonBytes, err := json.Marshal(resources)
 	if err != nil {
+		fmt.Println(err)
 		InternalServerErrorHandler(w, r)
 		return
 	}
@@ -56,8 +66,8 @@ func main() {
 
 	mux := http.NewServeMux()
 
-	mux.HandleFunc("POST /reading", readingsHandler.AddReading)
 	mux.HandleFunc("GET /reading", readingsHandler.GetReadings)
+	mux.HandleFunc("GET /newest", readingsHandler.GetNewestReadings)
 
 	fmt.Println("Server starting")
 	http.ListenAndServe("localhost:8000", mux)

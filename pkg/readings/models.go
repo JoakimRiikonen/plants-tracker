@@ -1,6 +1,12 @@
 package readings
 
 type Reading struct {
-	SensorId string  `json:"sensorId"`
-	Moisture float64 `json:"moisture"`
+	SensorId  string
+	Moisture  float64
+	Timestamp string
+}
+
+type AddReading struct {
+	SensorId string
+	Moisture float64
 }

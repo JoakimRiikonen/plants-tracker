@@ -37,7 +37,7 @@ func main() {
 			moistureReading = -1
 		}
 
-		reading := readings.Reading{
+		reading := readings.AddReading{
 			SensorId: chSoil.Channel,
 			Moisture: moistureReading,
 		}

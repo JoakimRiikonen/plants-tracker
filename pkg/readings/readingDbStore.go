@@ -22,7 +22,7 @@ func NewReadingDbStore(dbPath string) *ReadingDbStore {
 	}
 }
 
-func (s *ReadingDbStore) Add(reading Reading) error {
+func (s *ReadingDbStore) Add(reading AddReading) error {
 	statement, err := s.db.Prepare("insert into readings(sensorId, moisture) values (?, ?)")
 	defer statement.Close()
 	if err != nil {
@@ -41,14 +41,34 @@ func (s *ReadingDbStore) Add(reading Reading) error {
 func (s *ReadingDbStore) List() ([]Reading, error) {
 	var readings []Reading
 
-	rows, err := s.db.Query("select sensorId, moisture from readings")
+	rows, err := s.db.Query("SELECT sensorId, moisture, timestamp FROM readings")
 	if err != nil {
 		return readings, err
 	}
 
 	for rows.Next() {
 		var r Reading
-		err := rows.Scan(&r.SensorId, &r.Moisture)
+		err := rows.Scan(&r.SensorId, &r.Moisture, &r.Timestamp)
+		if err != nil {
+			return readings, err
+		}
+		readings = append(readings, r)
+	}
+
+	return readings, nil
+}
+
+func (s *ReadingDbStore) Newest() ([]Reading, error) {
+	var readings []Reading
+
+	rows, err := s.db.Query("SELECT sensorId, moisture, timestamp FROM readings r1 WHERE timestamp = (SELECT MAX(timestamp) FROM readings r2 WHERE r1.sensorId = r2.sensorId)")
+	if err != nil {
+		return readings, err
+	}
+
+	for rows.Next() {
+		var r Reading
+		err := rows.Scan(&r.SensorId, &r.Moisture, &r.Timestamp)
 		if err != nil {
 			return readings, err
 		}
