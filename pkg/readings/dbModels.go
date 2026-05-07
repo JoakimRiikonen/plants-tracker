@@ -2,10 +2,10 @@ package readings
 
 type SensorDbModel struct {
 	SensorId   string
-	SensorName float32
+	SensorName float64
 }
 
 type ReadingDbModel struct {
 	SensorId string
-	Moisture float32
+	Moisture float64
 }
