@@ -41,14 +41,19 @@ func (s *ReadingDbStore) Add(reading AddReading) error {
 func (s *ReadingDbStore) List() ([]Reading, error) {
 	var readings []Reading
 
-	rows, err := s.db.Query("SELECT sensorId, moisture, timestamp FROM readings")
+	query := `
+	SELECT r.sensorId, s.sensorName, r.moisture, r.timestamp
+	FROM readings r
+	LEFT JOIN sensors s ON r.sensorId = s.sensorId`
+
+	rows, err := s.db.Query(query)
 	if err != nil {
 		return readings, err
 	}
 
 	for rows.Next() {
 		var r Reading
-		err := rows.Scan(&r.SensorId, &r.Moisture, &r.Timestamp)
+		err := rows.Scan(&r.SensorId, &r.SensorName, &r.Moisture, &r.Timestamp)
 		if err != nil {
 			return readings, err
 		}
@@ -61,14 +66,21 @@ func (s *ReadingDbStore) List() ([]Reading, error) {
 func (s *ReadingDbStore) Newest() ([]Reading, error) {
 	var readings []Reading
 
-	rows, err := s.db.Query("SELECT sensorId, moisture, timestamp FROM readings r1 WHERE timestamp = (SELECT MAX(timestamp) FROM readings r2 WHERE r1.sensorId = r2.sensorId)")
+	query := `
+	SELECT r1.sensorId, s.sensorName, r1.moisture, r1.timestamp
+	FROM readings r1
+	LEFT JOIN sensors s ON r1.sensorId = s.sensorId
+	WHERE timestamp = (SELECT MAX(timestamp) FROM readings r2 WHERE r1.sensorId = r2.sensorId)
+	`
+
+	rows, err := s.db.Query(query)
 	if err != nil {
 		return readings, err
 	}
 
 	for rows.Next() {
 		var r Reading
-		err := rows.Scan(&r.SensorId, &r.Moisture, &r.Timestamp)
+		err := rows.Scan(&r.SensorId, &r.SensorName, &r.Moisture, &r.Timestamp)
 		if err != nil {
 			return readings, err
 		}
