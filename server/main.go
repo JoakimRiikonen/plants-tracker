@@ -60,6 +60,14 @@ func InternalServerErrorHandler(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("500 Internal server error"))
 }
 
+func GetWebClient(w http.ResponseWriter, r *http.Request) {
+	http.ServeFile(w, r, "webclient/index.html")
+}
+
+func GetWebClientAsset(w http.ResponseWriter, r *http.Request) {
+	http.ServeFile(w, r, "webclient/"+r.URL.Path)
+}
+
 func corsMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Access-Control-Allow-Origin", "*")
@@ -73,8 +81,10 @@ func main() {
 
 	mux := http.NewServeMux()
 
-	mux.HandleFunc("GET /reading", readingsHandler.GetReadings)
-	mux.HandleFunc("GET /latest", readingsHandler.GetLatestReadings)
+	mux.HandleFunc("GET /api/reading", readingsHandler.GetReadings)
+	mux.HandleFunc("GET /api/latest", readingsHandler.GetLatestReadings)
+	mux.HandleFunc("GET /assets/", GetWebClientAsset)
+	mux.HandleFunc("GET /{$}", GetWebClient)
 
 	fmt.Println("Server starting")
 	http.ListenAndServe("localhost:8000", corsMiddleware(mux))
