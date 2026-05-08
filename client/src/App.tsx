@@ -5,7 +5,7 @@ import Time from "./components/Time"
 import { getLatest } from "./api"
 
 const App = () => {
-  const { isPending, error, data, isFetching } = useQuery({
+  const { error, data } = useQuery({
     queryKey: ['readings'],
     queryFn: getLatest,
     refetchInterval: 5 * 60 * 1000

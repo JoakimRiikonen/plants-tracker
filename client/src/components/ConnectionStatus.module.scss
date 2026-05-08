@@ -1,4 +1,4 @@
-@import '../variables.scss';
+@use '../theme.scss';
 
 .statusContainer {
   display: flex;
@@ -14,7 +14,7 @@
 
 .statusLabel {
   letter-spacing: 4px;
-  text-shadow: 0 0 20px $color-main;
+  text-shadow: 0 0 20px theme.$color-main;
 }
 
 .statusLastUpdateLabel {
@@ -26,19 +26,19 @@
   margin-left: 22px;
   font-size: 50px;
   letter-spacing: -2px;
-  color: $color-bg;
+  color: theme.$color-bg;
   padding: 0px 6px;
   border-radius: 4px;
   font-weight: 900;
   transform: scale(1.5, 1.0);
 
   &.connected {
-    background: $color-positive;
-    box-shadow: 0 0 10px $color-positive;
+    background: theme.$color-positive;
+    box-shadow: 0 0 10px theme.$color-positive;
   }
 
   &.disconnected {
-    background: $color-secondary;
-    box-shadow: 0 0 10px $color-secondary;
+    background: theme.$color-secondary;
+    box-shadow: 0 0 10px theme.$color-secondary;
   }
 }

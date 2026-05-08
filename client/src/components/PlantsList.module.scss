@@ -1,4 +1,4 @@
-@import '../variables.scss';
+@use '../theme.scss';
 
 .plantsTable {
   width: 100%;
@@ -11,7 +11,7 @@
     letter-spacing: 4px;
     font-weight: normal;
     text-align: left;
-    text-shadow: 0 0 4px $color-main;
+    text-shadow: 0 0 4px theme.$color-main;
 
     &:last-child {
       text-align: right;
@@ -24,42 +24,42 @@
 }
 
 .plantName {
-  text-shadow: 0 0 10px $color-main;
+  text-shadow: 0 0 10px theme.$color-main;
   &::first-letter {
-    color: $color-secondary;
+    color: theme.$color-secondary;
   }
 }
 
 .plantStatus {
   max-width: 60px;
-  color: $color-bg;
+  color: theme.$color-bg;
   letter-spacing: -2px;
   font-weight: 900;
   transform: scale(1.5, 1.0);
   border-radius: 4px;
 
   &.ok {
-    background-color: $color-positive;
-    box-shadow: 0 0 10px $color-positive;
+    background-color: theme.$color-positive;
+    box-shadow: 0 0 10px theme.$color-positive;
   }
 
   &.warn {
-    background-color: $color-main;
-    box-shadow: 0 0 10px $color-main;
+    background-color: theme.$color-main;
+    box-shadow: 0 0 10px theme.$color-main;
   }
 
   &.alert {
-    background-color: $color-secondary;
-    box-shadow: 0 0 10px $color-secondary;
+    background-color: theme.$color-secondary;
+    box-shadow: 0 0 10px theme.$color-secondary;
   }
 
   &.lost {
-    background-color: $color-secondary;
-    box-shadow: 0 0 10px $color-secondary;
+    background-color: theme.$color-secondary;
+    box-shadow: 0 0 10px theme.$color-secondary;
   }
 }
 
 .plantMoisture {
-  text-shadow: 0 0 10px $color-main;
+  text-shadow: 0 0 10px theme.$color-main;
   text-align: right;
 }

@@ -1,4 +1,4 @@
-@import './variables.scss';
+@use './theme.scss';
 
 @font-face {
   font-family: 'Roboto-Condensed';
@@ -10,8 +10,8 @@
 }
 
 body {
-  background: $color-bg;
-  color: $color-main;
+  background: theme.$color-bg;
+  color: theme.$color-main;
   font-family: 'Roboto-Condensed';
   margin: 0;
   padding: 0;
