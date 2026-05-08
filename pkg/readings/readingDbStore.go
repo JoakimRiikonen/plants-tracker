@@ -63,7 +63,7 @@ func (s *ReadingDbStore) List() ([]Reading, error) {
 	return readings, nil
 }
 
-func (s *ReadingDbStore) Newest() ([]Reading, error) {
+func (s *ReadingDbStore) Latest() ([]Reading, error) {
 	var readings []Reading
 
 	query := `

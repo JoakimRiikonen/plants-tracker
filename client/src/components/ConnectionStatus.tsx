@@ -1,9 +1,12 @@
 import { Temporal } from "temporal-polyfill";
 import styles from './ConnectionStatus.module.scss';
 
-const ConnectionStatus = () => {
-  const time = Temporal.Now.zonedDateTimeISO()
-  const connected = true;
+type ConnectionStatusProps = {
+  connected: boolean,
+  lastUpdateTime: Temporal.TimeZoneLike,
+}
+
+const ConnectionStatus = ({ connected, lastUpdateTime }: ConnectionStatusProps) => {
 
   return (
     <div className={styles.statusContainer}>
@@ -20,7 +23,7 @@ const ConnectionStatus = () => {
           Last update:
         </div>
         <div>
-          {time.toString().split('+')[0]}
+          {lastUpdateTime.toString().split('+')[0]}
         </div>
         <div>
         </div>

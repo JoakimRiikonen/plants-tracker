@@ -1,32 +1,27 @@
+import type { Reading } from '../models/reading'
 import styles from './PlantsList.module.scss'
 
-const PlantsList = () => {
-  const plants: Plant[] = [
-    {
-      id: "123",
-      name: "CHILI",
-      status: "ok",
-      moisture: 99.9
-    },
-    {
-      id: "123",
-      name: "SUNFLO",
-      status: "warn",
-      moisture: 23.3
-    },
-    {
-      id: "123",
-      name: "LILY",
-      status: "alert",
-      moisture: 10.8
-    },
-    {
-      id: "123",
-      name: "BASIL",
-      status: "lost",
-      moisture: 10.8
-    },
-  ]
+type PlantsListProps = {
+  readings: Reading[]
+}
+
+type Status = "ok" | "alert" | "warn" | "lost"
+
+const PlantsList = ({ readings }: PlantsListProps) => {
+  // TODO: This should be moved to the api, and should probably be configurable per plant
+  function getStatus(reading: Reading): Status {
+    if (reading.Moisture === -1) {
+      return "lost"
+    }
+    if (reading.Moisture > 30) {
+      return "ok"
+    }
+    if (reading.Moisture > 20) {
+      return "warn"
+    }
+
+    return "alert"
+  }
 
   return (
     <div>
@@ -39,11 +34,11 @@ const PlantsList = () => {
           </tr>
         </thead>
         <tbody>
-          {plants.map(p => (
+          {readings.map(p => (
             <tr className={styles.plantRow}>
-              <td className={styles.plantName}>{p.name}</td>
-              <td className={styles.plantStatus + " " + styles[p.status]}>{p.status.toUpperCase()}</td>
-              <td className={styles.plantMoisture}>{p.moisture}%</td>
+              <td className={styles.plantName}>{p.SensorName}</td>
+              <td className={styles.plantStatus + " " + styles[getStatus(p)]}>{getStatus(p).toUpperCase()}</td>
+              <td className={styles.plantMoisture}>{p.Moisture}%</td>
             </tr>
           ))}
         </tbody>
@@ -51,14 +46,5 @@ const PlantsList = () => {
     </div>
   )
 }
-
-type Plant = {
-  id: string,
-  name: string,
-  status: Status,
-  moisture: number,
-}
-
-type Status = "ok" | "alert" | "warn" | "lost"
 
 export default PlantsList;

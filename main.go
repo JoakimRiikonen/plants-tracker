@@ -36,8 +36,8 @@ func (h *ReadingsHandler) GetReadings(w http.ResponseWriter, r *http.Request) {
 	w.Write(jsonBytes)
 }
 
-func (h *ReadingsHandler) GetNewestReadings(w http.ResponseWriter, r *http.Request) {
-	resources, err := h.store.Newest()
+func (h *ReadingsHandler) GetLatestReadings(w http.ResponseWriter, r *http.Request) {
+	resources, err := h.store.Latest()
 	if err != nil {
 		fmt.Println(err)
 		InternalServerErrorHandler(w, r)
@@ -60,6 +60,13 @@ func InternalServerErrorHandler(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("500 Internal server error"))
 }
 
+func corsMiddleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		next.ServeHTTP(w, r)
+	})
+}
+
 func main() {
 	store := readings.NewReadingDbStore("./db.db")
 	readingsHandler := NewReadingsHandler(store)
@@ -67,8 +74,8 @@ func main() {
 	mux := http.NewServeMux()
 
 	mux.HandleFunc("GET /reading", readingsHandler.GetReadings)
-	mux.HandleFunc("GET /newest", readingsHandler.GetNewestReadings)
+	mux.HandleFunc("GET /latest", readingsHandler.GetLatestReadings)
 
 	fmt.Println("Server starting")
-	http.ListenAndServe("localhost:8000", mux)
+	http.ListenAndServe("localhost:8000", corsMiddleware(mux))
 }
