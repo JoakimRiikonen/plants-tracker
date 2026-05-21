@@ -67,10 +67,10 @@ func (s *ReadingDbStore) Latest() ([]Reading, error) {
 	var readings []Reading
 
 	query := `
-	SELECT r1.sensorId, s.sensorName, r1.moisture, r1.timestamp
+	SELECT r1.sensorId, s.sensorName, r1.moisture, MAX(r1.timestamp)
 	FROM readings r1
 	LEFT JOIN sensors s ON r1.sensorId = s.sensorId
-	WHERE timestamp = (SELECT MAX(timestamp) FROM readings r2 WHERE r1.sensorId = r2.sensorId)
+	GROUP BY r1.sensorId
 	`
 
 	rows, err := s.db.Query(query)
