@@ -23,6 +23,10 @@ const Time = () => {
     return `${hours}:${minutes}:${seconds}`
   }
 
+  const requestFullScreen = () => {
+    document.body.requestFullscreen()
+  }
+
   const monthToText = (month?: number) => {
     switch (month) {
       case 1:
@@ -56,7 +60,7 @@ const Time = () => {
 
   return (
     <div className={styles.timeContainer}>
-      <div className={styles.timePrimary}>
+      <div className={styles.timePrimary} onClick={() => requestFullScreen()}>
         {formatPrimary()}
       </div>
       <div className={styles.timeSecondary}>

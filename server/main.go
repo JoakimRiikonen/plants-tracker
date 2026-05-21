@@ -87,5 +87,5 @@ func main() {
 	mux.HandleFunc("GET /{$}", GetWebClient)
 
 	fmt.Println("Server starting")
-	http.ListenAndServe("localhost:8000", corsMiddleware(mux))
+	http.ListenAndServe("0.0.0.0:8000", corsMiddleware(mux))
 }
