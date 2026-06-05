@@ -1,0 +1,57 @@
+@use '../theme.scss';
+
+.plantDetails {
+  background-color: theme.$color-bg;
+  position: absolute;
+  top: 20px;
+  left: 10px;
+  height: calc(100% - 40px);
+  width: calc(100% - 20px);
+  padding: 20px;
+
+  border: 8px solid theme.$color-secondary;
+  box-shadow: 0 0 20px theme.$color-secondary;
+  border-radius: 20px;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  display: flex;
+  font-size: 32px;
+  justify-content: space-between;
+}
+
+.closeButton {
+  font-weight: 900;
+  font-size: 32px;
+  border: none;
+  padding: 0;
+  margin: 0;
+  background-color: theme.$color-main;
+  box-shadow: 0 0 20px theme.$color-main;
+  width: 42px;
+  height: 42px;
+  border-radius: 6px;
+}
+
+.changeNameButton {
+  font-weight: 900;
+  font-size: 32px;
+  border: none;
+  padding: 10px;
+  letter-spacing: -2px;
+  transform: scale(1.5, 1.0);
+  margin: 0;
+  background-color: theme.$color-positive;
+  box-shadow: 0 0 20px theme.$color-positive;
+  border-radius: 6px;
+  margin-top: 20px;
+  max-width: 200px;
+  align-self: center;
+}
+
+.changeNameContainer {
+  margin-top: 20px;
+}

@@ -3,11 +3,12 @@ import styles from './PlantsList.module.scss'
 
 type PlantsListProps = {
   readings: Reading[]
+  setDetails: (sensorId: string) => void
 }
 
 type Status = "ok" | "alert" | "warn" | "lost"
 
-const PlantsList = ({ readings }: PlantsListProps) => {
+const PlantsList = ({ readings, setDetails }: PlantsListProps) => {
   // TODO: This should be moved to the api, and should probably be configurable per plant
   function getStatus(reading: Reading): Status {
     if (reading.Moisture === -1) {
@@ -35,7 +36,7 @@ const PlantsList = ({ readings }: PlantsListProps) => {
         </thead>
         <tbody>
           {readings.map(p => (
-            <tr className={styles.plantRow}>
+            <tr className={styles.plantRow} onClick={() => setDetails(p.SensorId)}>
               <td className={styles.plantName}>{p.SensorName}</td>
               <td className={styles.plantStatus + " " + styles[getStatus(p)]}>{getStatus(p).toUpperCase()}</td>
               <td className={styles.plantMoisture}>{p.Moisture}%</td>
