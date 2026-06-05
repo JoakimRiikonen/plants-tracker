@@ -89,3 +89,39 @@ func (s *ReadingDbStore) Latest() ([]Reading, error) {
 
 	return readings, nil
 }
+
+func (s *ReadingDbStore) GetSensor(sensorId string) (Sensor, error) {
+	var sensor Sensor
+	query := `
+	SELECT sensorId, sensorName
+	FROM sensors
+	WHERE sensorId = ?
+	`
+
+	statement, err := s.db.Prepare(query)
+	if err != nil {
+		return sensor, err
+	}
+
+	row := statement.QueryRow(sensorId)
+	err = row.Scan(&sensor.SensorId, &sensor.SensorName)
+
+	return sensor, err
+}
+
+func (s *ReadingDbStore) SetSensorName(sensorId string, sensorName string) error {
+	query := `
+	UPDATE sensors
+	SET sensorName = ?
+	WHERE sensorId = ?
+	`
+
+	statement, err := s.db.Prepare(query)
+	if err != nil {
+		return err
+	}
+
+	_, err = statement.Exec(sensorName, sensorId)
+
+	return err
+}

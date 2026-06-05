@@ -7,6 +7,11 @@ type Reading struct {
 	Timestamp  string
 }
 
+type Sensor struct {
+	SensorId   string
+	SensorName string
+}
+
 type AddReading struct {
 	SensorId string
 	Moisture float64

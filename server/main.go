@@ -55,6 +55,41 @@ func (h *ReadingsHandler) GetLatestReadings(w http.ResponseWriter, r *http.Reque
 	w.Write(jsonBytes)
 }
 
+func (h *ReadingsHandler) SetSensorName(w http.ResponseWriter, r *http.Request) {
+	match := r.PathValue("id")
+
+	var requestModel SetSensorNameRequest
+	if err := json.NewDecoder(r.Body).Decode(&requestModel); err != nil {
+		InternalServerErrorHandler(w, r)
+		return
+	}
+
+	if requestModel.SensorName == "" {
+		InternalServerErrorHandler(w, r)
+		return
+	}
+
+	_, err := h.store.GetSensor(match)
+
+	if err != nil {
+		fmt.Print(err)
+		NotFoundHandler(w, r)
+		return
+	}
+
+	if err := h.store.SetSensorName(match, requestModel.SensorName); err != nil {
+		InternalServerErrorHandler(w, r)
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+}
+
+func NotFoundHandler(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusNotFound)
+	w.Write([]byte("404 Not found"))
+}
+
 func InternalServerErrorHandler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusInternalServerError)
 	w.Write([]byte("500 Internal server error"))
@@ -83,9 +118,10 @@ func main() {
 
 	mux.HandleFunc("GET /api/reading", readingsHandler.GetReadings)
 	mux.HandleFunc("GET /api/latest", readingsHandler.GetLatestReadings)
+	mux.HandleFunc("POST /api/sensors/{id}/setName", readingsHandler.SetSensorName)
 	mux.HandleFunc("GET /assets/", GetWebClientAsset)
 	mux.HandleFunc("GET /{$}", GetWebClient)
 
 	fmt.Println("Server starting")
-	http.ListenAndServe("0.0.0.0:8000", corsMiddleware(mux))
+	http.ListenAndServe("localhost:8000", corsMiddleware(mux))
 }

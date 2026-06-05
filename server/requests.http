@@ -1,5 +1,14 @@
-GET http://localhost:8000/reading
+GET http://localhost:8000/api/reading
 
 ###
 
-GET http://localhost:8000/newest
+GET http://localhost:8000/api/latest
+
+###
+
+POST http://localhost:8000/api/sensors/1/setName
+Content-Type: application/json
+
+{
+  "sensorName": "LILY"
+}
