@@ -35,6 +35,9 @@ const PlantDetails = ({ reading, onClose, refetchData }: PlantDetailsProps) => {
         <div>{reading.SensorName}</div>
         <button className={styles.closeButton} onClick={() => onClose()}>✕</button>
       </div>
+      <div>
+        Latest reading: {reading.Timestamp}
+      </div>
       {changeName
         ? <>
           <div className={styles.changeNameContainer}>
